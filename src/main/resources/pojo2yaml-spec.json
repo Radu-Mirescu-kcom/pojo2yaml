@@ -4,7 +4,8 @@
     "booking":{
       "outputYaml":"booking.yaml",
       "entityPrefix":"booking",
-      "package":"booking"
+      "package":"booking",
+      "subpackages":["request","response"]
     }
   }
 }
