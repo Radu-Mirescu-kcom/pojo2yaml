@@ -15,6 +15,7 @@ public class EnumWorker extends ClassWorker {
         outputHandler.out(String.format("  %s:%n",
             camelize(clazz.getCanonicalName().substring(rootPackageLength)))
         );
+        outputHandler.out("    type: string\n");
         outputHandler.out("    enum:\n");
         Class<? extends Enum> enumClass = (Class<? extends Enum>) clazz;
         Arrays.stream(enumClass.getEnumConstants()).forEach( ec -> {
