@@ -32,6 +32,6 @@ public class ServiceConfig {
         List<String> fullQualifiedPackages = subPackages.stream().map(
             sp -> String.format("%s.%s.%s",bp,inputPackage,sp)
         ).collect(Collectors.toList());
-        return new ServiceWorker(fullQualifiedPackages);
+        return new ServiceWorker(fullQualifiedPackages,bp);
     }
 }

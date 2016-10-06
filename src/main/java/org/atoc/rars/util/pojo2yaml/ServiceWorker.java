@@ -12,9 +12,11 @@ import java.util.Set;
  */
 public class ServiceWorker {
     private List<String> packages;
+    private String rootPackage;
 
-    public ServiceWorker(List<String> packages) {
+    public ServiceWorker(List<String> packages,String rootPackage) {
         this.packages = packages;
+        this.rootPackage = rootPackage;
     }
 
     private boolean isWeirdCase(Class<? extends Object> cl) {
@@ -62,7 +64,7 @@ public class ServiceWorker {
                 if( isWeirdCase(cl) ) {
                     System.out.println(String.format("skip UNKNOWN: %s ...",cl.getCanonicalName()));
                 } else {
-                    ClassWorker classWorker = new ClassWorker(cl);
+                    ClassWorker classWorker = new ClassWorker(cl,rootPackage);
                     classWorker.process();
                 }
             });
