@@ -1,3 +1,10 @@
-{"services":{
-  "booking":{}
-}}
+{
+  "basePackage":"org.atoc.rars.stubs.generated.model",
+  "services":{
+    "booking":{
+      "outputYaml":"booking.yaml",
+      "entityPrefix":"booking",
+      "package":"booking"
+    }
+  }
+}
