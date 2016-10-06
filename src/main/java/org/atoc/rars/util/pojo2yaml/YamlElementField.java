@@ -9,8 +9,8 @@ import java.lang.reflect.Field;
 public class YamlElementField extends YamlField {
     XmlElement xmlElement;
 
-    public YamlElementField(Field field,XmlElement xElem) {
-        super(field);
+    public YamlElementField(Field field,ClassWorker classWorker,XmlElement xElem) {
+        super(field,classWorker);
         xmlElement = xElem;
     }
 

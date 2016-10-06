@@ -8,14 +8,16 @@ import java.lang.reflect.Field;
  */
 public class ClassWorker {
     private Class<? extends Object> clazz;
-    private int rootPackageLength;
+    protected String rootPackage;
+    protected int rootPackageLength;
 
     public ClassWorker(Class<? extends Object> clazz,String rootPackage) {
         this.clazz = clazz;
         this.rootPackageLength = rootPackage.length()+1;
+        this.rootPackage = rootPackage;
     }
 
-    private String camelize(String packageLikeName) {
+    String camelize(String packageLikeName) {
         boolean toUpperNext = false;
         StringBuilder sb = new StringBuilder();
         for(int i=0;i<packageLikeName.length();i++) {
@@ -35,7 +37,7 @@ public class ClassWorker {
         System.out.println(String.format("processing CLASS: %s ...",clazz.getCanonicalName()));
         YamlTypeDefinition typeDef = new YamlTypeDefinition(camelize(
             clazz.getCanonicalName().substring(rootPackageLength)
-        ));
+        ), this);
         for(Field f : clazz.getDeclaredFields()) {
             try {
                 typeDef.addField(f);

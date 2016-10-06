@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 public class YamlTypeDefinition {
     private String name;
     private List<YamlField> fields;
+    private ClassWorker classWorker;
 
-    public YamlTypeDefinition(String name) {
+    public YamlTypeDefinition(String name, ClassWorker classWorker) {
         this.name = name;
         fields = new ArrayList<>();
+        this.classWorker = classWorker;
     }
 
     public String toString() {
@@ -40,12 +42,12 @@ public class YamlTypeDefinition {
     public void addField(Field f) {
         XmlAttribute xmlAttribute = f.getAnnotation(XmlAttribute.class);
         if( xmlAttribute != null ) {
-            fields.add(new YamlField(f,xmlAttribute));
+            fields.add(new YamlField(f,classWorker,xmlAttribute));
             return;
         }
         XmlElement xmlElement = f.getAnnotation(XmlElement.class);
         if(xmlElement != null) {
-            fields.add(new YamlElementField(f,xmlElement));
+            fields.add(new YamlElementField(f,classWorker,xmlElement));
             return;
         }
         throw new RuntimeException(String.format("No XML annotation for the field %s",f));
