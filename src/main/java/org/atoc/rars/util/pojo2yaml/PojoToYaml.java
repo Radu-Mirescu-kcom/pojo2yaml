@@ -35,7 +35,7 @@ public class PojoToYaml {
         }
 
         System.out.println("-- ready to process!");
-        globalConfig.process();
+        globalConfig.process(serviceName);
         System.out.println("-- eoj");
     }
 
