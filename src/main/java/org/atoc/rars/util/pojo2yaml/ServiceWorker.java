@@ -59,6 +59,12 @@ public class ServiceWorker {
             Reflections reflections = new Reflections(
                 rootCBuilder.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(pkg)))
             );
+            Set<Class<? extends Enum>> enums = reflections.getSubTypesOf(Enum.class);
+            enums.stream().forEach( en -> {
+                EnumWorker enumWorker = new EnumWorker(en,rootPackage);
+                enumWorker.process();
+            });
+
             Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
             classes.stream().forEach( cl -> {
                 if( isWeirdCase(cl) ) {

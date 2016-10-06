@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
  * Created by radu on 06.10.2016.
  */
 public class ClassWorker {
-    private Class<? extends Object> clazz;
+    protected Class<? extends Object> clazz;
     protected String rootPackage;
     protected int rootPackageLength;
 
