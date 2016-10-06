@@ -35,6 +35,8 @@ public class PojoToYaml {
         }
 
         System.out.println("-- ready to process!");
+        globalConfig.process();
+        System.out.println("-- eoj");
     }
 
     private Optional<Path> getMockAccessRightsPath() {

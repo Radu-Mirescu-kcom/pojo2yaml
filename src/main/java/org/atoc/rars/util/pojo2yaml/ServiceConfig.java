@@ -21,4 +21,8 @@ public class ServiceConfig {
         this.entityPrefix = ep;
         this.inputPackage = inputPackage;
     }
+
+    public ServiceWorker buildWorker(String bp) {
+        return new ServiceWorker(String.format("%s.%s",bp,inputPackage));
+    }
 }
