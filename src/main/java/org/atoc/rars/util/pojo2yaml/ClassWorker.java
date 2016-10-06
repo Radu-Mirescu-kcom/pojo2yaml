@@ -1,5 +1,8 @@
 package org.atoc.rars.util.pojo2yaml;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import java.lang.reflect.Field;
+
 /**
  * Created by radu on 06.10.2016.
  */
@@ -33,6 +36,15 @@ public class ClassWorker {
         YamlTypeDefinition typeDef = new YamlTypeDefinition(camelize(
             clazz.getCanonicalName().substring(rootPackageLength)
         ));
+        for(Field f : clazz.getDeclaredFields()) {
+            try {
+                typeDef.addField(f);
+            } catch(RuntimeException re) {
+
+            }
+        }
+
+
         System.out.println(typeDef.toString());
 
         System.out.println("done");

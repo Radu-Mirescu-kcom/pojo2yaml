@@ -1,18 +1,53 @@
 package org.atoc.rars.util.pojo2yaml;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by radu on 06.10.2016.
  */
 public class YamlTypeDefinition {
     private String name;
+    private List<YamlField> fields;
 
     public YamlTypeDefinition(String name) {
         this.name = name;
+        fields = new ArrayList<>();
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("  %s:\n",name));
+        sb.append(String.format("  %s:%n",name));
+        List<YamlField> reqs = fields.stream().filter( f -> f.isRequired()).collect(Collectors.toList());
+        if(!reqs.isEmpty()) {
+            sb.append("    required:\n");
+            for(YamlField req:reqs) {
+                sb.append(String.format("      - %s%n",req.name()));
+            }
+        }
+        if(!fields.isEmpty()) {
+            sb.append("    properties:\n");
+            fields.stream().forEach( f -> f.outputTo(sb));
+        }
+        sb.append(String.format("    type: object%n",name));
         return sb.toString();
+    }
+
+    public void addField(Field f) {
+        XmlAttribute xmlAttribute = f.getAnnotation(XmlAttribute.class);
+        if( xmlAttribute != null ) {
+            fields.add(new YamlField(f,xmlAttribute));
+            return;
+        }
+        XmlElement xmlElement = f.getAnnotation(XmlElement.class);
+        if(xmlElement != null) {
+            fields.add(new YamlElementField(f,xmlElement));
+            return;
+        }
+        throw new RuntimeException(String.format("No XML annotation for the field %s",f));
     }
 }
