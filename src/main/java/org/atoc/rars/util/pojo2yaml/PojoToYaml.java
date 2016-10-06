@@ -18,7 +18,7 @@ import static java.lang.System.exit;
  * Created by radu on 05.10.2016.
  */
 public class PojoToYaml {
-    public static void main(String argv[]) {
+    public static void main(String argv[]) throws IOException {
         PojoToYaml driver = new PojoToYaml();
         PojoToYamlConfig globalConfig = driver.initConfiguration();
 
@@ -34,10 +34,8 @@ public class PojoToYaml {
             exit(1);
         }
 
-        OutputHandler outputHandler = new OutputHandler();
-
         System.out.println("-- ready to process!");
-        globalConfig.process(serviceName,outputHandler);
+        globalConfig.process(serviceName);
         System.out.println("-- eoj");
     }
 

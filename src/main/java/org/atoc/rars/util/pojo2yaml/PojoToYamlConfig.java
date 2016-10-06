@@ -6,6 +6,8 @@ import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
+
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -22,7 +24,7 @@ public class PojoToYamlConfig {
         this.basePackage = basePackage;
     }
 
-    public void process(String serviceName, OutputHandler outputHandler) {
+    public void process(String serviceName) throws IOException {
         List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
         classLoadersList.add(ClasspathHelper.staticClassLoader());
@@ -31,6 +33,6 @@ public class PojoToYamlConfig {
                 new ResourcesScanner())
             .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])));
 
-        this.servicesInfo.get(serviceName).buildWorker(basePackage).process(rootCBuilder,outputHandler);
+        this.servicesInfo.get(serviceName).buildWorker(basePackage).process(rootCBuilder);
     }
 }

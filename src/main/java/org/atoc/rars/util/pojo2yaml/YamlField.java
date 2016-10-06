@@ -66,8 +66,8 @@ public class YamlField {
         } else {
             Optional<String> ref = refType(clazz);
             if( ref.isPresent() ) {
-                sb.append(String.format("%stype:%n",prefix));
-                sb.append(String.format("%s  ref$: \"#/definitions/%s\"%n",prefix,ref.get()));
+                //sb.append(String.format("%stype:%n",prefix));
+                sb.append(String.format("%sref$: \"#/definitions/%s\"%n",prefix,ref.get()));
             } else {
                 throw new RuntimeException(String.format("Unable to solve type for: %s",field));
             }

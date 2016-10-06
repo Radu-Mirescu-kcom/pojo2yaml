@@ -7,4 +7,6 @@ public class OutputHandler {
     public void out(String msg) {
         System.out.print(msg);
     }
+
+    public void close() {};
 }

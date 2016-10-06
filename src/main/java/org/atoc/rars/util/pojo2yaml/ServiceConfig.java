@@ -3,6 +3,7 @@ package org.atoc.rars.util.pojo2yaml;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,10 +29,11 @@ public class ServiceConfig {
         this.subPackages = subPackages;
     }
 
-    public ServiceWorker buildWorker(String bp) {
+    public ServiceWorker buildWorker(String bp) throws IOException {
         List<String> fullQualifiedPackages = subPackages.stream().map(
             sp -> String.format("%s.%s.%s",bp,inputPackage,sp)
         ).collect(Collectors.toList());
-        return new ServiceWorker(fullQualifiedPackages,bp);
+
+        return new ServiceWorker(fullQualifiedPackages,bp,new FileOutputHandler(outputYaml));
     }
 }

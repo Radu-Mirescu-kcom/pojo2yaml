@@ -13,10 +13,12 @@ import java.util.Set;
 public class ServiceWorker {
     private List<String> packages;
     private String rootPackage;
+    private OutputHandler outputHandler;
 
-    public ServiceWorker(List<String> packages,String rootPackage) {
+    public ServiceWorker(List<String> packages,String rootPackage,OutputHandler oHandler) {
         this.packages = packages;
         this.rootPackage = rootPackage;
+        this.outputHandler = oHandler;
     }
 
     private boolean isWeirdCase(Class<? extends Object> cl) {
@@ -53,7 +55,7 @@ public class ServiceWorker {
         return false;
     }
 
-    public void process(ConfigurationBuilder rootCBuilder, OutputHandler outputHandler) {
+    public void process(ConfigurationBuilder rootCBuilder) {
         packages.stream().forEach( pkg -> {
             System.out.println(String.format("-- processing %s",pkg));
             Reflections reflections = new Reflections(
@@ -76,5 +78,6 @@ public class ServiceWorker {
             });
             System.out.println("-- done");
         });
+        outputHandler.close();
     }
 }
