@@ -10,15 +10,15 @@ public class EnumWorker extends ClassWorker {
         super(innerEnum,rootPackage);
     }
 
-    public void process() {
+    public void process(OutputHandler outputHandler) {
         System.out.println(String.format("processing ENUM: %s ...",clazz.getCanonicalName()));
-        System.out.print(String.format("  %s:%n",
+        outputHandler.out(String.format("  %s:%n",
             camelize(clazz.getCanonicalName().substring(rootPackageLength)))
         );
-        System.out.print("    enum:\n");
+        outputHandler.out("    enum:\n");
         Class<? extends Enum> enumClass = (Class<? extends Enum>) clazz;
         Arrays.stream(enumClass.getEnumConstants()).forEach( ec -> {
-            System.out.print(String.format("      - %s%n", ec.name()));
+            outputHandler.out(String.format("      - %s%n", ec.name()));
         });
 
         System.out.println("done");

@@ -34,8 +34,10 @@ public class PojoToYaml {
             exit(1);
         }
 
+        OutputHandler outputHandler = new OutputHandler();
+
         System.out.println("-- ready to process!");
-        globalConfig.process(serviceName);
+        globalConfig.process(serviceName,outputHandler);
         System.out.println("-- eoj");
     }
 

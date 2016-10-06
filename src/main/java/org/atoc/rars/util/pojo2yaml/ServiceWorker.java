@@ -53,7 +53,7 @@ public class ServiceWorker {
         return false;
     }
 
-    public void process(ConfigurationBuilder rootCBuilder) {
+    public void process(ConfigurationBuilder rootCBuilder, OutputHandler outputHandler) {
         packages.stream().forEach( pkg -> {
             System.out.println(String.format("-- processing %s",pkg));
             Reflections reflections = new Reflections(
@@ -62,7 +62,7 @@ public class ServiceWorker {
             Set<Class<? extends Enum>> enums = reflections.getSubTypesOf(Enum.class);
             enums.stream().forEach( en -> {
                 EnumWorker enumWorker = new EnumWorker(en,rootPackage);
-                enumWorker.process();
+                enumWorker.process(outputHandler);
             });
 
             Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
@@ -71,7 +71,7 @@ public class ServiceWorker {
                     System.out.println(String.format("skip UNKNOWN: %s ...",cl.getCanonicalName()));
                 } else {
                     ClassWorker classWorker = new ClassWorker(cl,rootPackage);
-                    classWorker.process();
+                    classWorker.process(outputHandler);
                 }
             });
             System.out.println("-- done");

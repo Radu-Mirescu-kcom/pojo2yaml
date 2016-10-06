@@ -22,7 +22,7 @@ public class PojoToYamlConfig {
         this.basePackage = basePackage;
     }
 
-    public void process(String serviceName) {
+    public void process(String serviceName, OutputHandler outputHandler) {
         List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
         classLoadersList.add(ClasspathHelper.staticClassLoader());
@@ -31,6 +31,6 @@ public class PojoToYamlConfig {
                 new ResourcesScanner())
             .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])));
 
-        this.servicesInfo.get(serviceName).buildWorker(basePackage).process(rootCBuilder);
+        this.servicesInfo.get(serviceName).buildWorker(basePackage).process(rootCBuilder,outputHandler);
     }
 }

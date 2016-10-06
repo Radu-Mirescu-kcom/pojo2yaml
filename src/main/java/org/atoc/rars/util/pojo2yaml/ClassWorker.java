@@ -1,6 +1,5 @@
 package org.atoc.rars.util.pojo2yaml;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import java.lang.reflect.Field;
 
 /**
@@ -33,7 +32,7 @@ public class ClassWorker {
         return sb.toString();
     }
 
-    public void process() {
+    public void process(OutputHandler outputHandler) {
         System.out.println(String.format("processing CLASS: %s ...",clazz.getCanonicalName()));
         YamlTypeDefinition typeDef = new YamlTypeDefinition(camelize(
             clazz.getCanonicalName().substring(rootPackageLength)
@@ -47,7 +46,7 @@ public class ClassWorker {
         }
 
 
-        System.out.println(typeDef.toString());
+        outputHandler.out(typeDef.toString());
 
         System.out.println("done");
     }
