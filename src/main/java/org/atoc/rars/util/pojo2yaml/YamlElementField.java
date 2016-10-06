@@ -21,6 +21,6 @@ public class YamlElementField extends YamlField {
 
     @Override
     public String name() {
-        return xmlElement.name();
+        return field.getName();
     }
 }

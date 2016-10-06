@@ -10,7 +10,7 @@ import java.util.Optional;
  * Created by radu on 06.10.2016.
  */
 public class YamlField {
-    private Field field;
+    protected Field field;
     XmlAttribute xmlAttribute;
     ClassWorker classWorker;
 
@@ -92,6 +92,6 @@ public class YamlField {
     }
 
     public String name() {
-        return xmlAttribute.name();
+        return field.getName();
     }
 }
