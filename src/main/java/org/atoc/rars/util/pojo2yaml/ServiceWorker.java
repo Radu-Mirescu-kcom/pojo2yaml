@@ -17,6 +17,40 @@ public class ServiceWorker {
         this.packages = packages;
     }
 
+    private boolean isWeirdCase(Class<? extends Object> cl) {
+        if( cl.isSynthetic() ) {
+            return true;
+        }
+        if( cl.isEnum() ) {
+            return true;
+        }
+        if( cl.isLocalClass() ) {
+            return true;
+        }
+        if( cl.isMemberClass() ) {
+            return true;
+        }
+        if( cl.isAnnotation() ) {
+            return true;
+        }
+        if( cl.isArray() ) {
+            return true;
+        }
+        if( cl.isInterface() ) {
+            return true;
+        }
+        if( cl.isAnonymousClass() ) {
+            return true;
+        }
+        if( cl.isSynthetic() ) {
+            return true;
+        }
+        if( cl.isPrimitive() ) {
+            return true;
+        }
+        return false;
+    }
+
     public void process(ConfigurationBuilder rootCBuilder) {
         packages.stream().forEach( pkg -> {
             System.out.println(String.format("-- processing %s",pkg));
@@ -25,7 +59,12 @@ public class ServiceWorker {
             );
             Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
             classes.stream().forEach( cl -> {
-                System.out.println(String.format("processing CLASS: %s",cl.getCanonicalName()));
+                if( isWeirdCase(cl) ) {
+                    System.out.println(String.format("skip UNKNOWN: %s ...",cl.getCanonicalName()));
+                } else {
+                    ClassWorker classWorker = new ClassWorker(cl);
+                    classWorker.process();
+                }
             });
             System.out.println("-- done");
         });
