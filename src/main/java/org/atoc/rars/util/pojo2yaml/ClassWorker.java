@@ -32,7 +32,17 @@ public class ClassWorker {
         return sb.toString();
     }
 
+    private boolean ignoreClass() {
+        if(clazz.getCanonicalName().endsWith("ObjectFactory")){
+            return true;
+        }
+        return false;
+    }
+
     public void process(OutputHandler outputHandler) {
+        if(ignoreClass()) {
+            return;
+        }
         System.out.println(String.format("processing CLASS: %s ...",clazz.getCanonicalName()));
         YamlTypeDefinition typeDef = new YamlTypeDefinition(camelize(
             clazz.getCanonicalName().substring(rootPackageLength)

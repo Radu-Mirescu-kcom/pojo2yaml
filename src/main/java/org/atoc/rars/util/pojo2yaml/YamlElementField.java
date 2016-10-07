@@ -18,9 +18,4 @@ public class YamlElementField extends YamlField {
     public boolean isRequired() {
         return xmlElement.required();
     }
-
-    @Override
-    public String name() {
-        return field.getName();
-    }
 }

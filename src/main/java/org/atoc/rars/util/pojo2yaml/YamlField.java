@@ -92,6 +92,10 @@ public class YamlField {
     }
 
     public String name() {
-        return field.getName();
+        String toReturn = field.getName();
+        if( toReturn.equals("no")) {
+            toReturn = "'no'";
+        }
+        return toReturn;
     }
 }
