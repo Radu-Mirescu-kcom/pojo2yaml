@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public class YamlField {
     protected Field field;
-    XmlAttribute xmlAttribute;
+    Optional<XmlAttribute> xmlAttribute = Optional.empty();
     ClassWorker classWorker;
 
     public YamlField(Field field,ClassWorker classWorker) {
@@ -21,7 +21,7 @@ public class YamlField {
 
     public YamlField(Field field,ClassWorker classWorker,XmlAttribute xmlAttr) {
         this(field,classWorker);
-        this.xmlAttribute = xmlAttr;
+        this.xmlAttribute = Optional.of(xmlAttr);
     }
 
     private boolean isList() {
@@ -90,7 +90,10 @@ public class YamlField {
     }
 
     public boolean isRequired() {
-        return xmlAttribute.required();
+        if( xmlAttribute.isPresent()) {
+            return xmlAttribute.get().required();
+        }
+        return true;
     }
 
     public String name() {

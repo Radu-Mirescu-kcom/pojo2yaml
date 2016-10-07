@@ -58,6 +58,10 @@ public class YamlTypeDefinition {
                 return;
             }
         }
+        if( f.getType().getCanonicalName().equals("javax.xml.namespace.QName")) {
+            fields.add(new YamlField(f,classWorker));
+            return;
+        }
         throw new RuntimeException(String.format("No XML annotation for the field %s",f));
     }
 }

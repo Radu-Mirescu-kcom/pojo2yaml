@@ -4,6 +4,7 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
+import javax.xml.bind.JAXBElement;
 import java.util.Set;
 
 /**
@@ -16,6 +17,30 @@ public class ServiceWorker {
     public ServiceWorker(ServiceConfig config, OutputHandler oHandler) {
         this.config = config;
         this.outputHandler = oHandler;
+    }
+
+    private boolean specialCase(String canonicalName,OutputHandler outputHandler,PackageConfig pkg) {
+        if( canonicalName.endsWith("SessionControl")) {
+            outputHandler.out(String.format("  SessionControl%s:%n",pkg.alias));
+            outputHandler.out(String.format("    required:%n"));
+            outputHandler.out(String.format("      - value%n"));
+            outputHandler.out(String.format("    properties:%n"));
+            outputHandler.out(String.format("      value:%n"));
+            outputHandler.out(String.format("        type: string%n"));
+            outputHandler.out(String.format("    type: object%n"));
+            return true;
+        }
+        if( canonicalName.endsWith("NoPlace")) {
+            outputHandler.out(String.format("  NoPlace%s:%n",pkg.alias));
+            outputHandler.out(String.format("    required:%n"));
+            outputHandler.out(String.format("      - value%n"));
+            outputHandler.out(String.format("    properties:%n"));
+            outputHandler.out(String.format("      value:%n"));
+            outputHandler.out(String.format("        type: string%n"));
+            outputHandler.out(String.format("    type: object%n"));
+            return true;
+        }
+        return false;
     }
 
     private boolean isWeirdCase(Class<? extends Object> cl) {
@@ -72,6 +97,12 @@ public class ServiceWorker {
                 } else {
                     ClassWorker classWorker = new ClassWorker(cl,config.inputPackage,pkg);
                     classWorker.process(outputHandler);
+                }
+            });
+            Set<Class<? extends JAXBElement>> jaxbElems = reflections.getSubTypesOf(JAXBElement.class);
+            jaxbElems.stream().forEach( cl -> {
+                if( !specialCase(cl.getCanonicalName(),outputHandler,pkg)) {
+                    System.out.println("--- UNTREATED " + cl.getCanonicalName());
                 }
             });
             System.out.println("-- done");
