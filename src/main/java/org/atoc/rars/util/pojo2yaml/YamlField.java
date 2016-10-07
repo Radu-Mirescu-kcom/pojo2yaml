@@ -97,6 +97,8 @@ public class YamlField {
         String toReturn = field.getName();
         if( toReturn.equals("no")) {
             toReturn = "'no'";
+        } else if(toReturn.equals("on")) {
+            toReturn = "'on'";
         }
         return toReturn;
     }
