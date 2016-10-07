@@ -11,12 +11,10 @@ import java.util.Set;
  */
 public class ServiceWorker {
     private ServiceConfig config;
-    private String rootPackage;
     private OutputHandler outputHandler;
 
-    public ServiceWorker(ServiceConfig config,String rootPackage,OutputHandler oHandler) {
+    public ServiceWorker(ServiceConfig config, OutputHandler oHandler) {
         this.config = config;
-        this.rootPackage = rootPackage;
         this.outputHandler = oHandler;
     }
 
@@ -56,14 +54,14 @@ public class ServiceWorker {
 
     public void process(ConfigurationBuilder rootCBuilder) {
         config.subPackages.stream().forEach( pkg -> {
-            String pkgPath = String.format("%s.%s.%s",rootPackage,config.inputPackage,pkg.name);
+            String pkgPath = String.format("%s.%s",config.inputPackage,pkg.name);
             System.out.println(String.format("-- processing %s",pkgPath));
             Reflections reflections = new Reflections(
                 rootCBuilder.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(pkgPath)))
             );
             Set<Class<? extends Enum>> enums = reflections.getSubTypesOf(Enum.class);
             enums.stream().forEach( en -> {
-                EnumWorker enumWorker = new EnumWorker(en,rootPackage,pkg);
+                EnumWorker enumWorker = new EnumWorker(en,config.inputPackage,pkg);
                 enumWorker.process(outputHandler);
             });
 
@@ -72,7 +70,7 @@ public class ServiceWorker {
                 if( isWeirdCase(cl) ) {
                     throw new RuntimeException(String.format("skip UNKNOWN: %s ...",cl.getCanonicalName()));
                 } else {
-                    ClassWorker classWorker = new ClassWorker(cl,rootPackage,pkg);
+                    ClassWorker classWorker = new ClassWorker(cl,config.inputPackage,pkg);
                     classWorker.process(outputHandler);
                 }
             });

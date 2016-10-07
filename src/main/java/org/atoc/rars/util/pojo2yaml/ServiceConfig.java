@@ -24,8 +24,8 @@ public class ServiceConfig {
         this.subPackages = subPackages;
     }
 
-    public ServiceWorker buildWorker(String bp) throws IOException {
+    public ServiceWorker buildWorker() throws IOException {
         FileOutputHandler fileOutputHandler = new FileOutputHandler(outputYaml);
-        return new ServiceWorker(this,bp,fileOutputHandler);
+        return new ServiceWorker(this,fileOutputHandler);
     }
 }

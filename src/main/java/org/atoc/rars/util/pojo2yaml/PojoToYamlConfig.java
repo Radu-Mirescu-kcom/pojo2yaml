@@ -16,12 +16,9 @@ import java.util.*;
 public class PojoToYamlConfig {
     @Getter
     private Map<String,ServiceConfig> servicesInfo = new HashMap<String,ServiceConfig>();
-    private String basePackage;
 
-    public PojoToYamlConfig(@JsonProperty("services") Map<String,ServiceConfig> services,
-                            @JsonProperty("basePackage") String basePackage) {
+    public PojoToYamlConfig(@JsonProperty("services") Map<String,ServiceConfig> services) {
         this.servicesInfo = services;
-        this.basePackage = basePackage;
     }
 
     public void process(String serviceName) throws IOException {
@@ -33,6 +30,6 @@ public class PojoToYamlConfig {
                 new ResourcesScanner())
             .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])));
 
-        this.servicesInfo.get(serviceName).buildWorker(basePackage).process(rootCBuilder);
+        this.servicesInfo.get(serviceName).buildWorker().process(rootCBuilder);
     }
 }

@@ -1,10 +1,14 @@
 {
-  "basePackage":"org.atoc.rars.stubs.generated.model",
   "services":{
     "booking":{
       "outputYaml":"booking.yaml",
-      "package":"booking",
+      "package":"org.atoc.rars.stubs.generated.model.booking",
       "subpackages":[{"name":"request","alias":"BkReq"},{"name":"response","alias":"BkRsp"}]
+    },
+    "availability":{
+      "outputYaml":"availability.yaml",
+      "package":"org.atoc.rars.retailsopi.generated.model.availability",
+      "subpackages":[{"name":"request","alias":"AvReq"},{"name":"response","alias":"AvRsp"}]
     }
   }
 }
