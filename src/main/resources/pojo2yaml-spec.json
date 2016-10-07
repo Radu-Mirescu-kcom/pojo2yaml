@@ -3,12 +3,12 @@
     "booking":{
       "outputYaml":"booking.yaml",
       "package":"org.atoc.rars.stubs.generated.model.booking",
-      "subpackages":[{"name":"request","alias":"BkReq"},{"name":"response","alias":"BkRsp"}]
+      "subpackages":[{"name":"request","alias":"BkReq"},{"name":"response","alias":"BkRes"}]
     },
     "availability":{
       "outputYaml":"availability.yaml",
       "package":"org.atoc.rars.retailsopi.generated.model.availability",
-      "subpackages":[{"name":"request","alias":"AvReq"},{"name":"response","alias":"AvRsp"}]
+      "subpackages":[{"name":"request","alias":"AvReq"},{"name":"response","alias":"AvRes"}]
     }
   }
 }
