@@ -4,19 +4,18 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import java.util.List;
 import java.util.Set;
 
 /**
  * Created by radu on 06.10.2016.
  */
 public class ServiceWorker {
-    private List<String> packages;
+    private ServiceConfig config;
     private String rootPackage;
     private OutputHandler outputHandler;
 
-    public ServiceWorker(List<String> packages,String rootPackage,OutputHandler oHandler) {
-        this.packages = packages;
+    public ServiceWorker(ServiceConfig config,String rootPackage,OutputHandler oHandler) {
+        this.config = config;
         this.rootPackage = rootPackage;
         this.outputHandler = oHandler;
     }
@@ -56,23 +55,24 @@ public class ServiceWorker {
     }
 
     public void process(ConfigurationBuilder rootCBuilder) {
-        packages.stream().forEach( pkg -> {
-            System.out.println(String.format("-- processing %s",pkg));
+        config.subPackages.stream().forEach( pkg -> {
+            String pkgPath = String.format("%s.%s.%s",rootPackage,config.inputPackage,pkg.name);
+            System.out.println(String.format("-- processing %s",pkgPath));
             Reflections reflections = new Reflections(
-                rootCBuilder.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(pkg)))
+                rootCBuilder.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(pkgPath)))
             );
             Set<Class<? extends Enum>> enums = reflections.getSubTypesOf(Enum.class);
             enums.stream().forEach( en -> {
-                EnumWorker enumWorker = new EnumWorker(en,rootPackage);
+                EnumWorker enumWorker = new EnumWorker(en,rootPackage,pkg);
                 enumWorker.process(outputHandler);
             });
 
             Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
             classes.stream().forEach( cl -> {
                 if( isWeirdCase(cl) ) {
-                    System.out.println(String.format("skip UNKNOWN: %s ...",cl.getCanonicalName()));
+                    throw new RuntimeException(String.format("skip UNKNOWN: %s ...",cl.getCanonicalName()));
                 } else {
-                    ClassWorker classWorker = new ClassWorker(cl,rootPackage);
+                    ClassWorker classWorker = new ClassWorker(cl,rootPackage,pkg);
                     classWorker.process(outputHandler);
                 }
             });

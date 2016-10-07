@@ -13,27 +13,19 @@ import java.util.stream.Collectors;
 public class ServiceConfig {
     @Getter
     private String outputYaml;
-    @Getter
-    private String inputPackage;
-    @Getter
-    private String entityPrefix;
-    private List<String> subPackages;
+    String inputPackage;
+    List<PackageConfig> subPackages;
 
     public ServiceConfig(@JsonProperty("authorizationArea") String outputYaml,
-                         @JsonProperty("entityPrefix") String ep,
                          @JsonProperty("package") String inputPackage,
-                         @JsonProperty("subpackages") List<String> subPackages) {
+                         @JsonProperty("subpackages") List<PackageConfig> subPackages) {
         this.outputYaml = outputYaml;
-        this.entityPrefix = ep;
         this.inputPackage = inputPackage;
         this.subPackages = subPackages;
     }
 
     public ServiceWorker buildWorker(String bp) throws IOException {
-        List<String> fullQualifiedPackages = subPackages.stream().map(
-            sp -> String.format("%s.%s.%s",bp,inputPackage,sp)
-        ).collect(Collectors.toList());
-
-        return new ServiceWorker(fullQualifiedPackages,bp,new FileOutputHandler(outputYaml));
+        FileOutputHandler fileOutputHandler = new FileOutputHandler(outputYaml);
+        return new ServiceWorker(this,bp,fileOutputHandler);
     }
 }

@@ -6,14 +6,20 @@ import java.lang.reflect.Field;
  * Created by radu on 06.10.2016.
  */
 public class ClassWorker {
-    protected Class<? extends Object> clazz;
-    protected String rootPackage;
-    protected int rootPackageLength;
+    Class<? extends Object> clazz;
+    String rootPackage;
+    int rootPackageLength;
+    PackageConfig pkgConfig;
 
     public ClassWorker(Class<? extends Object> clazz,String rootPackage) {
         this.clazz = clazz;
         this.rootPackageLength = rootPackage.length()+1;
         this.rootPackage = rootPackage;
+    }
+
+    public ClassWorker(Class<?> cl, String rootPackage, PackageConfig pkg) {
+        this(cl,rootPackage);
+        pkgConfig = pkg;
     }
 
     String camelize(String packageLikeName) {
@@ -44,9 +50,9 @@ public class ClassWorker {
             return;
         }
         System.out.println(String.format("processing CLASS: %s ...",clazz.getCanonicalName()));
-        YamlTypeDefinition typeDef = new YamlTypeDefinition(camelize(
-            clazz.getCanonicalName().substring(rootPackageLength)
-        ), this);
+        YamlTypeDefinition typeDef = new YamlTypeDefinition(
+            String.format("%s%s",pkgConfig.alias,clazz.getSimpleName())
+        , this);
         for(Field f : clazz.getDeclaredFields()) {
             try {
                 typeDef.addField(f);

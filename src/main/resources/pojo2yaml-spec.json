@@ -3,9 +3,8 @@
   "services":{
     "booking":{
       "outputYaml":"booking.yaml",
-      "entityPrefix":"booking",
       "package":"booking",
-      "subpackages":["request","response"]
+      "subpackages":[{"name":"request","alias":"BkReq"},{"name":"response","alias":"BkRsp"}]
     }
   }
 }
