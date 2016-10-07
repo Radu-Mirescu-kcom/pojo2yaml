@@ -54,11 +54,7 @@ public class ClassWorker {
             String.format("%s%s",clazz.getSimpleName(),pkgConfig.alias)
         , this);
         for(Field f : clazz.getDeclaredFields()) {
-            try {
-                typeDef.addField(f);
-            } catch(RuntimeException re) {
-
-            }
+            typeDef.addField(f);
         }
 
 
