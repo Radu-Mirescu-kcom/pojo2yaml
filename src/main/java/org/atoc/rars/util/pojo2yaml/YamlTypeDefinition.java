@@ -2,6 +2,7 @@ package org.atoc.rars.util.pojo2yaml;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,13 @@ public class YamlTypeDefinition {
         if(xmlElement != null) {
             fields.add(new YamlElementField(f,classWorker,xmlElement));
             return;
+        }
+        XmlElementRef xmlElementRef = f.getAnnotation(XmlElementRef.class);
+        {
+            if(xmlElementRef != null) {
+                fields.add(new YamlElementField(f,classWorker,xmlElementRef));
+                return;
+            }
         }
         throw new RuntimeException(String.format("No XML annotation for the field %s",f));
     }
