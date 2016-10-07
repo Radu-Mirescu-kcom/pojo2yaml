@@ -13,7 +13,7 @@ public class EnumWorker extends ClassWorker {
     public void process(OutputHandler outputHandler) {
         System.out.println(String.format("processing ENUM: %s ...",clazz.getCanonicalName()));
         outputHandler.out(
-            String.format("  %s%s:%n", pkgConfig.alias, clazz.getSimpleName() )
+            String.format("  %s%s:%n", clazz.getSimpleName(), pkgConfig.alias )
         );
         outputHandler.out("    type: string\n");
         outputHandler.out("    enum:\n");

@@ -51,7 +51,7 @@ public class ClassWorker {
         }
         System.out.println(String.format("processing CLASS: %s ...",clazz.getCanonicalName()));
         YamlTypeDefinition typeDef = new YamlTypeDefinition(
-            String.format("%s%s",pkgConfig.alias,clazz.getSimpleName())
+            String.format("%s%s",clazz.getSimpleName(),pkgConfig.alias)
         , this);
         for(Field f : clazz.getDeclaredFields()) {
             try {
