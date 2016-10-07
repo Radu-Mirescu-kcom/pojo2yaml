@@ -54,7 +54,9 @@ public class YamlField {
     private Optional<String> refType(Class<?> clazz) {
         String fieldCName = clazz.getCanonicalName();
         if( fieldCName.startsWith(classWorker.rootPackage)) {
-            return Optional.of( classWorker.camelize(fieldCName.substring(classWorker.rootPackageLength)) );
+            return Optional.of(
+                String.format("%s%s",classWorker.pkgConfig.alias,clazz.getSimpleName())
+            );
         }
         return Optional.empty();
     }
